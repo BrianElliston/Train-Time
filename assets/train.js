@@ -1,3 +1,5 @@
+
+//Making sure I'm hooked up to console
 $(document).ready(function(){
     console.log("test");
 
@@ -22,10 +24,11 @@ $(document).ready(function(){
     var minutesAway = "";
 
     $("#submitbtn").on('click', function(event){
-        // prevents overwriting 
+        // This will prevent overwriting 
         event.preventDefault();
 
-        // add values to the HTML elements
+        // adding values dynamicly to the HTML elements using jQuery
+    
         name = $("#name").val().trim();
         destination = $("#destination").val().trim();
         nextArrival = $("#nextArrival").val().trim();
@@ -61,7 +64,7 @@ $(document).ready(function(){
 
 
             // This acts as a for loop, so for each 'childSnapshot', we're gonna add the info below in a new table row, or <td> 
-            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().destination + "</td>" + "<td>" + childSnapshot.val().nextArrival + "<td>" + months + " months" + "</td>" + "<td>" + childSnapshot.val().minutesAway + "</td>" + "<td>" + months * childSnapshot.val().minutesAway + "</td>" + "</tr>");
+            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().destination + "</td>" + "<td>" + childSnapshot.val().nextArrival + "<td>" + childSnapshot.val().minutesAway + "</td>" + "</tr>");
         }, function(errorObject){
             console.log("Errors handled: " + errorObject.code);
         })
