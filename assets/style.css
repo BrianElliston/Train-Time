@@ -1,4 +1,10 @@
-h1 {
+/* h1 {
 
-    background: blue
+    background: blue;
+
+} */
+
+.jumbotron {
+
+   background-image:   src="assets/images.jpg"; 
 }

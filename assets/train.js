@@ -1,25 +1,25 @@
 $(document).ready(function(){
     console.log("test");
 
-    // initialize firebase
-    var config = {
-        apiKey: "AIzaSyBWAD8y60ZAaDsuwEt-SEa9Jap6kMLS-NU",
-        authDomain: "coder-bay-b12e4.firebaseapp.com",
-        databaseURL: "https://coder-bay-b12e4.firebaseio.com",
-        projectId: "coder-bay-b12e4",
-        storageBucket: "coder-bay-b12e4.appspot.com",
-        messagingSenderId: "1029478646953"
-      };
+   
 
-    firebase.initializeApp(config);
+    var config = {
+        apiKey: "AIzaSyCdb3OuplGDTtrrIHTFrox5eAJtOCZs_jc",
+        authDomain: "train-time-13f8c.firebaseapp.com",
+        databaseURL: "https://train-time-13f8c.firebaseio.com",
+        projectId: "train-time-13f8c",
+        storageBucket: "",
+        messagingSenderId: "621290675500"
+      };
+      firebase.initializeApp(config);
 
     // declare database var
     database = firebase.database();
 
     var name = "";
-    var role = "";
-    var date = "";
-    var rate = "";
+    var destination = "";
+    var nextArrival = "";
+    var minutesAway = "";
 
     $("#submitbtn").on('click', function(){
         // prevents overwriting 
@@ -27,9 +27,9 @@ $(document).ready(function(){
 
         // add values to the HTML elements
         name = $("#name").val().trim();
-        role = $("#role").val().trim();
-        date = $("#date").val().trim();
-        rate = $("#rate").val().trim();
+        role = $("#destination").val().trim();
+        date = $("#nextArrival").val().trim();
+        rate = $("#minutesAway").val().trim();
 
         // console.log(name);
         // console.log(role);
@@ -38,9 +38,9 @@ $(document).ready(function(){
 
         database.ref().push({
             name: name,
-            role: role,
-            date: date,
-            rate: rate,
+            destination: destination,
+            nextArrival: nextArrival,
+            minutesAway: minutesAway,
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
     });
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
 
             // This acts as a for loop, so for each 'childSnapshot', we're gonna add the info below in a new table row, or <td> 
-            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().role + "</td>" + "<td>" + childSnapshot.val().date + "<td>" + months + " months" + "</td>" + "<td>" + childSnapshot.val().rate + "</td>" + "<td>" + months * childSnapshot.val().rate + "</td>" + "</tr>");
+            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().destination + "</td>" + "<td>" + childSnapshot.val().nextArrival + "<td>" + months + " months" + "</td>" + "<td>" + childSnapshot.val().minutesAway + "</td>" + "<td>" + months * childSnapshot.val().minutesAway + "</td>" + "</tr>");
         }, function(errorObject){
             console.log("Errors handled: " + errorObject.code);
         })
