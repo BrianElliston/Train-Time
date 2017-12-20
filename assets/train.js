@@ -21,7 +21,7 @@ $(document).ready(function(){
     var name = "";
     var destination = "";
     var nextArrival = "";
-    var minutesAway = "";
+    var frequency = "";
 
     $("#submitbtn").on('click', function(event){
         // This will prevent overwriting 
@@ -32,7 +32,9 @@ $(document).ready(function(){
         name = $("#name").val().trim();
         destination = $("#destination").val().trim();
         nextArrival = $("#nextArrival").val().trim();
-        minutesAway = $("#minutesAway").val().trim();
+        frequency = $("#frequency").val().trim();
+
+        console.log(frequency);
 
         // console.log(name);
         // console.log(role);
@@ -43,7 +45,7 @@ $(document).ready(function(){
             name: name,
             destination: destination,
             nextArrival: nextArrival,
-            minutesAway: minutesAway,
+            frequency: frequency,
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
     });
@@ -56,15 +58,39 @@ $(document).ready(function(){
             // console.log(childSnapshot.val().date);
             // console.log(childSnapshot.val().rate);
 
-            // this was all gotten from the moment js website
-            var a = moment(); // this stores the current time in a variable
-            var b = moment(childSnapshot.val().date); // this stores the date from childSnapshot to a variable
-            var months = a.diff(b, 'months'); // subtracts childSnapshot from a, and calculates it in months. 
-            console.log(months);
+              // Assumptions
+        var tFrequency = childSnapshot.val().frequency;
+    
+        // Time is 3:30 AM
+        var firstTime = childSnapshot.val().nextArrival;
+    
+        // First Time (pushed back 1 year to make sure it comes before current time)
+        var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
+        console.log(firstTimeConverted);
+    
+        // Current Time
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+    
+        // Time apart (remainder)
+        var tRemainder = diffTime % tFrequency;
+        console.log(tRemainder);
+    
+        // Minute Until Train
+        var tMinutesTillTrain = tFrequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    
+        // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
 
             // This acts as a for loop, so for each 'childSnapshot', we're gonna add the info below in a new table row, or <td> 
-            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().destination + "</td>" + "<td>" + childSnapshot.val().nextArrival + "<td>" + childSnapshot.val().minutesAway + "</td>" + "</tr>");
+            $("#table").append("<tr>" + "<td>" + childSnapshot.val().name + "</td>" + "<td>" + childSnapshot.val().destination + "</td>"  + "<td>" + childSnapshot.val().frequency + "</td>" + "<td>" + moment(nextTrain).format("hh:mm")  + "</td>" + "<td>" +  tMinutesTillTrain + "</td>" + "</tr>");
         }, function(errorObject){
             console.log("Errors handled: " + errorObject.code);
         })
