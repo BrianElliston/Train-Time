@@ -21,15 +21,15 @@ $(document).ready(function(){
     var nextArrival = "";
     var minutesAway = "";
 
-    $("#submitbtn").on('click', function(){
+    $("#submitbtn").on('click', function(event){
         // prevents overwriting 
         event.preventDefault();
 
         // add values to the HTML elements
         name = $("#name").val().trim();
-        role = $("#destination").val().trim();
-        date = $("#nextArrival").val().trim();
-        rate = $("#minutesAway").val().trim();
+        destination = $("#destination").val().trim();
+        nextArrival = $("#nextArrival").val().trim();
+        minutesAway = $("#minutesAway").val().trim();
 
         // console.log(name);
         // console.log(role);
